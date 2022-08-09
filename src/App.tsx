@@ -1,25 +1,51 @@
 import React from 'react';
-import logo from './logo.svg';
+import { Route, Routes } from 'react-router-dom';
+
 import './App.css';
+import { Greet } from './components/Greet';
+import { Person } from './components/Person';
+import { PersonList } from './components/PersonList';
+import { Status } from './components/Status';
+import Edit from './ToolkitCrud/Forms/Edit';
+import Main from './ToolkitCrud/Forms/view/Main';
+import UserList from './ToolkitCrud/UserList';
 
 function App() {
+  const personName ={
+    first:'Asha',
+    last:'Aro',
+
+  }
+  const nameList =[
+    {
+      first:'jeni',
+      last:'Aro',
+    },
+    {
+      first:'Rithika',
+      last:'Kumar'
+    },
+    {
+      first:'Parves',
+      last:'Mushraf'
+    }
+  ]
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <div >
+      {/* <Greet name='Jeni' age={22} isLoggedIn={false}/>
+     <Person name={personName}/>
+     <PersonList names={nameList}/>
+     <Status status='loading' /> */}
+      <Routes>
+        {/* <Route path="/" element={<Navbar />} /> */}
+        <Route path="/resort" element={<Main />} />
+        <Route path="/user" element={<UserList />} />
+        <Route path="/edit/:id" element={<Edit />} />
+        
+      
+      </Routes>
+        </div>
   );
 }
 
