@@ -3,23 +3,24 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { deleteUsers, fetchUsers } from "./Forms/UserSlice";
-import { AppDispatch, RootState } from "./store/Store";
+
+import { AppDispatch, RootState } from "../../store/Store";
+import { deleteUsers, fetchUsers } from "../Slice/UserSlice";
 
 const UserList = () => {
-  const user = useSelector((state:RootState) => state.user);
-  const [deleteId, setDeleteId] = useState<values>();
+  const user: any = useSelector((state: RootState) => state.user);
+  const [deleteId, setDeleteId] = useState("");
   console.log(user);
-  type values={
-    firstname ?:string;
-    lastname ?:string;
-    phonenumber ?:number;
-    mail ?:string;
-    arrival ?: string;
-    departure ?:string;
-    noguests ?:number;
-    roomtype ?:string;
-  }
+  type values = {
+    firstname?: string;
+    lastname?: string;
+    phonenumber?: number;
+    mail?: string;
+    arrival?: string;
+    departure?: string;
+    noguests?: number;
+    roomtype?: string;
+  };
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -28,18 +29,17 @@ const UserList = () => {
   }, []);
   const navigate = useNavigate();
 
-  const deleteDatas = (deleted:values) => {
-    dispatch(deleteUsers(deleted));
+  const deleteDatas = (deleted: string) => {
+    dispatch(deleteUsers(parseInt(deleted)));
     dispatch(fetchUsers);
   };
   const goBack = () => {
-   
     navigate("/resort");
   };
   useEffect(() => {
     dispatch(fetchUsers());
   }, []);
-  const updatedata = (id:number) => {
+  const updatedata = (id: number) => {
     navigate(`/edit/${id}`);
   };
 
@@ -52,8 +52,6 @@ const UserList = () => {
     "Mail",
     "Arival",
     "Departure",
-    "Noguests",
-    "Roomtype",
     "Action1",
     "Action2",
   ];
@@ -79,7 +77,7 @@ const UserList = () => {
             <table className="table table-responsive">
               <thead className="table-dark">
                 <tr>
-                  {header.map((Names:any) => {
+                  {header.map((Names: any) => {
                     return (
                       <React.Fragment key={Names.id}>
                         <th>{Names}</th>
@@ -89,8 +87,8 @@ const UserList = () => {
                 </tr>
               </thead>
               <tbody className="table-secondary">
-                {!user.loading && user.users.length
-                  ? user.users.map((user:any, i) => (
+                {!user.loading && user?.users?.length
+                  ? user.users.map((user: any, i: number) => (
                       <tr key={i}>
                         <td>{user.id}</td>
                         <td>{user.firstname}</td>
@@ -99,8 +97,8 @@ const UserList = () => {
                         <td>{user.mail}</td>
                         <td>{user.arrival}</td>
                         <td>{user.departure}</td>
-                        <td>{user.noguests}</td>
-                        <td>{user.roomtype}</td>
+                        {/* <td>{user.noguests}</td>
+                        <td>{user.roomtype}</td> */}
 
                         <td>
                           <button
@@ -117,7 +115,6 @@ const UserList = () => {
                           <button
                             className="btn btn-info"
                             type="button"
-                            
                             onClick={(e) => updatedata(user.id)}
                           >
                             Update
@@ -141,7 +138,7 @@ const UserList = () => {
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">
-                 Delete data
+                  Delete data
                 </h5>
                 <button
                   type="button"

@@ -2,34 +2,34 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import './App.css';
-import { Greet } from './components/Greet';
-import { Person } from './components/Person';
-import { PersonList } from './components/PersonList';
-import { Status } from './components/Status';
-import Edit from './ToolkitCrud/Forms/Edit';
+// import { Greet } from './components/Greet';
+// import { Person } from './components/Person';
+// import { PersonList } from './components/PersonList';
+// import { Status } from './components/Status';
+import Edit from './ToolkitCrud/Forms/Update/Edit';
 import Main from './ToolkitCrud/Forms/view/Main';
-import UserList from './ToolkitCrud/UserList';
+import UserList from './ToolkitCrud/Forms/User/UserList';
 
 function App() {
-  const personName ={
-    first:'Asha',
-    last:'Aro',
+  // const personName ={
+  //   first:'Asha',
+  //   last:'Aro',
 
-  }
-  const nameList =[
-    {
-      first:'jeni',
-      last:'Aro',
-    },
-    {
-      first:'Rithika',
-      last:'Kumar'
-    },
-    {
-      first:'Parves',
-      last:'Mushraf'
-    }
-  ]
+  // }
+  // const nameList =[
+  //   {
+  //     first:'jeni',
+  //     last:'Aro',
+  //   },
+  //   {
+  //     first:'Rithika',
+  //     last:'Kumar'
+  //   },
+  //   {
+  //     first:'Parves',
+  //     last:'Mushraf'
+  //   }
+  // ]
   
   return (
     <div >

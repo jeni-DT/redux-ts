@@ -1,10 +1,11 @@
-import { type } from "@testing-library/user-event/dist/type";
-import React, { useEffect, useState } from "react";
-import { Button, Col, Container, Dropdown, Form, Row } from "react-bootstrap";
+
+import React, {useState } from "react";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useDispatch, } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../store/Store";
-import { addUsers} from "../UserSlice";
+import { addUsers } from "../Slice/UserSlice";
+
 
 const Main = () => {
   const navigate = useNavigate();
@@ -351,7 +352,7 @@ const Main = () => {
               </div> */}
               <br></br>
               <div className="btnS">
-                <Button variant="primary" type="submit">
+                <Button variant="dark"type="submit">
                   <b>
                     <i>BOOK NOW</i>
                   </b>

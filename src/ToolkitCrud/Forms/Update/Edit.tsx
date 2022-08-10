@@ -2,78 +2,77 @@ import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchUsers,editUsers} from "./UserSlice";
 
-
-import { AppDispatch, RootState } from "../store/Store";
+import { AppDispatch, RootState } from "../../store/Store";
+import { editUsers, fetchUsers } from "../Slice/UserSlice";
 
 const Edit = () => {
-  type val={
-    id ?: number;
-    firstname ?:string;
-    lastname ?:string;
-    phonenumber ?:number;
-    mail ?:string;
-    arrival ?: string;
-    departure ?:string;
+  type val = {
+    id?: number;
+    firstname?: string;
+    lastname?: string;
+    phonenumber?: number;
+    mail?: string;
+    arrival?: string;
+    departure?: string;
     // noguests ?:number;
     // roomtype ?:string;
-  }
-  type errorType ={
-    firstname ?:string;
-    lastname ?:string;
-    phonenumber ?:string;
-    mail ?:string|undefined;
-    arrival ?: string;
-    departure ?:string;
+  };
+  type errorType = {
+    firstname?: string;
+    lastname?: string;
+    phonenumber?: string;
+    mail?: string | undefined;
+    arrival?: string;
+    departure?: string;
     // noguests ?:string;
     // roomtype ?:string;
-  }
+  };
   const [values, setValues] = useState<val>({});
-  const [error,setError]=useState<errorType>({});
-  const {id}=useParams();
-  const navigate=useNavigate();
-  const dispatch=useDispatch<AppDispatch>();
-  const editData =useSelector((state:RootState)=>state.user)
-  const handleChange=(e:React.ChangeEvent<HTMLInputElement>)=>{
-    const{name,value}=e.target
-    console.log(e.target)
+  const [error, setError] = useState<errorType>({});
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  const editData = useSelector((state: RootState) => state.user);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    console.log(e.target);
     switch (name) {
-        case "firstname":
-          error.firstname = "";
-          break;
-  
-        case "lastname":
-          error.lastname = "";
-          break;
-  
-        case "phonenumber":
-          error.phonenumber = "";
-          break;
-        case "mail":
-          error.mail = "";
-          break;
-        case "arrival":
-          error.arrival = "";
-          break;
-        case "departure":
-          error.departure = "";
-          break;
-        // case "noguests":
-        //   error.noguests = "";
-        //   break;
-        // case "roomtype":
-        //   error.roomtype = "";
-        //   break;
-  
-        default:
-          break;
-      }
-      setValues({...values,[name]:value});
-  }
+      case "firstname":
+        error.firstname = "";
+        break;
+
+      case "lastname":
+        error.lastname = "";
+        break;
+
+      case "phonenumber":
+        error.phonenumber = "";
+        break;
+      case "mail":
+        error.mail = "";
+        break;
+      case "arrival":
+        error.arrival = "";
+        break;
+      case "departure":
+        error.departure = "";
+        break;
+      // case "noguests":
+      //   error.noguests = "";
+      //   break;
+      // case "roomtype":
+      //   error.roomtype = "";
+      //   break;
+
+      default:
+        break;
+    }
+    setValues({ ...values, [name]: value });
+  };
   const Validate = () => {
     const {
-      id,
+      
       firstname,
       lastname,
       phonenumber,
@@ -84,8 +83,8 @@ const Edit = () => {
       // roomtype,
     } = values;
     const regEx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
-    let errors:errorType = {};
-    let email=mail?.match(regEx)
+    let errors: errorType = {};
+    let email = mail?.match(regEx);
     if (firstname === "") {
       errors.firstname = "First name can't be blank *";
     }
@@ -96,13 +95,12 @@ const Edit = () => {
     if (!phonenumber) {
       errors.phonenumber = "Phonenumber can't be blank*";
     }
-    if (phonenumber?.toString()?.length!= 10) {
+    if (phonenumber?.toString()?.length != 10) {
       errors.phonenumber = "Phonenumber must be 10 numbers*";
     }
     if (mail === "") {
       errors.mail = "email can't be blank*";
-    }
-    else if (!email) {
+    } else if (!email) {
       errors.mail = "Please Enter the valid mail*";
     }
     if (arrival === "") {
@@ -111,9 +109,8 @@ const Edit = () => {
 
     if (departure === "") {
       errors.departure = "please fill the departure date*";
-    }
-    else if(departure === arrival){
-      errors.departure="Please enter the valid date "
+    } else if (departure === arrival) {
+      errors.departure = "Please enter the valid date ";
     }
     // let check=noguests!==0
 
@@ -124,49 +121,48 @@ const Edit = () => {
     // if (roomtype === "") {
     //   errors.roomtype = "Please choose the room type*";
     // }
-   
+
     return errors;
   };
-  useEffect(()=>{
-    dispatch(fetchUsers()); 
-  },[])
-  const filteredData =
-    editData && editData.users.find((data:any) => data.id .toString()===id);
   useEffect(() => {
-    
+    dispatch(fetchUsers());
+  }, []);
+  const filteredData =
+    Array.isArray(editData) &&
+    editData.find((data) => data.id.toString() === id);
+  useEffect(() => {
     if (filteredData) {
-    setValues(filteredData);
+      setValues(filteredData);
     }
   }, [filteredData]);
-  
-  const handleSubmit=(e:React.FormEvent)=>{ 
-e.preventDefault();
-let errors = Validate();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    let errors = Validate();
     if (Object.keys(errors).length === 0) {
-        dispatch(editUsers(changes));
-        
-        navigate("/user");
+      dispatch(editUsers(changes));
+
+      navigate("/user");
     } else {
       console.log("errorvalid", errors);
       setError(errors);
     }
-  }
-  const changes={
-    id:values.id,
-    firstname:values.firstname,
-    lastname:values.lastname,
-    phonenumber:values.phonenumber,
-    mail:values.mail,
-    arrival:values.arrival,
-    departure:values.departure,
+  };
+  const changes = {
+    id: values.id,
+    firstname: values.firstname,
+    lastname: values.lastname,
+    phonenumber: values.phonenumber,
+    mail: values.mail,
+    arrival: values.arrival,
+    departure: values.departure,
     // noguests:values.noguests,
     // roomtype:values.roomtype
-
-  }
+  };
   return (
-    <div >
+    <div>
       <div>
-        <body className="update" >
+        <body className="update">
           <div className="title">
             <h1 className="updateheader">Resort Booking</h1>
           </div>
@@ -175,9 +171,7 @@ let errors = Validate();
             <Form onSubmit={handleSubmit}>
               <div className="mt-5">
                 <div className="headform">
-                  <h2>
-                    Changes the Form 
-                  </h2>
+                  <h2>Changes the Form</h2>
                   <br></br>
                 </div>
                 <Row>
@@ -193,7 +187,7 @@ let errors = Validate();
                       onChange={handleChange}
                     ></Form.Control>
                     {error.firstname && (
-                        <span style={{ color: "red" }}>{error.firstname}</span>
+                      <span style={{ color: "red" }}>{error.firstname}</span>
                     )}
                   </Col>
                   <Col>
@@ -206,10 +200,9 @@ let errors = Validate();
                       name="lastname"
                       value={values.lastname}
                       onChange={handleChange}
-                     
                     ></Form.Control>
                     {error.lastname && (
-                        <span style={{ color: "red" }}>{error.lastname}</span>
+                      <span style={{ color: "red" }}>{error.lastname}</span>
                     )}
                   </Col>
                 </Row>
@@ -229,8 +222,8 @@ let errors = Validate();
                       value={values.phonenumber}
                       onChange={handleChange}
                     ></Form.Control>
-                   {error.phonenumber && (
-                        <span style={{ color: "red" }}>{error.phonenumber}</span>
+                    {error.phonenumber && (
+                      <span style={{ color: "red" }}>{error.phonenumber}</span>
                     )}
                   </Col>
                   <Col>
@@ -245,7 +238,7 @@ let errors = Validate();
                       onChange={handleChange}
                     ></Form.Control>
                     {error.mail && (
-                        <span style={{ color: "red" }}>{error.mail}</span>
+                      <span style={{ color: "red" }}>{error.mail}</span>
                     )}
                   </Col>
                 </Row>
@@ -266,7 +259,7 @@ let errors = Validate();
                       onChange={handleChange}
                     ></Form.Control>
                     {error.arrival && (
-                        <span style={{ color: "red" }}>{error.arrival}</span>
+                      <span style={{ color: "red" }}>{error.arrival}</span>
                     )}
                   </Col>
                   <Col>
@@ -281,7 +274,7 @@ let errors = Validate();
                       onChange={handleChange}
                     ></Form.Control>
                     {error.departure && (
-                        <span style={{ color: "red" }}>{error.departure}</span>
+                      <span style={{ color: "red" }}>{error.departure}</span>
                     )}
                   </Col>
                 </Row>
