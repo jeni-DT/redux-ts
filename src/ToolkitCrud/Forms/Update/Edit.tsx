@@ -33,7 +33,7 @@ const Edit = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const editData = useSelector((state: RootState) => state.user);
+  const editData:any = useSelector((state: RootState) => state.user);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     console.log(e.target);
@@ -58,12 +58,7 @@ const Edit = () => {
       case "departure":
         error.departure = "";
         break;
-      // case "noguests":
-      //   error.noguests = "";
-      //   break;
-      // case "roomtype":
-      //   error.roomtype = "";
-      //   break;
+    
 
       default:
         break;
@@ -72,15 +67,13 @@ const Edit = () => {
   };
   const Validate = () => {
     const {
-      
       firstname,
       lastname,
       phonenumber,
       mail,
       arrival,
       departure,
-      // noguests,
-      // roomtype,
+     
     } = values;
     const regEx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
     let errors: errorType = {};
@@ -95,7 +88,7 @@ const Edit = () => {
     if (!phonenumber) {
       errors.phonenumber = "Phonenumber can't be blank*";
     }
-    if (phonenumber?.toString()?.length != 10) {
+    if (phonenumber?.toString()?.length !== 10) {
       errors.phonenumber = "Phonenumber must be 10 numbers*";
     }
     if (mail === "") {
@@ -112,24 +105,20 @@ const Edit = () => {
     } else if (departure === arrival) {
       errors.departure = "Please enter the valid date ";
     }
-    // let check=noguests!==0
-
-    // if (check) {
-    //   errors.noguests = "please choose the number of guests*";
-    // }
-
-    // if (roomtype === "") {
-    //   errors.roomtype = "Please choose the room type*";
-    // }
+    
 
     return errors;
   };
   useEffect(() => {
     dispatch(fetchUsers());
-  }, []);
+  }, [dispatch]);
+
   const filteredData =
-    Array.isArray(editData) &&
-    editData.find((data) => data.id.toString() === id);
+    Array.isArray(editData.users) &&
+    editData.users.find((data:any) => data.id === Number(id));
+
+console.log(filteredData);
+
   useEffect(() => {
     if (filteredData) {
       setValues(filteredData);
@@ -156,8 +145,7 @@ const Edit = () => {
     mail: values.mail,
     arrival: values.arrival,
     departure: values.departure,
-    // noguests:values.noguests,
-    // roomtype:values.roomtype
+  
   };
   return (
     <div>
@@ -280,53 +268,6 @@ const Edit = () => {
                 </Row>
               </div>
               <br></br>
-              {/* <div>
-                <Row>
-                  <Col>
-                    <Form.Label>
-                      <b>No.of guests</b>
-                    </Form.Label>
-                    <select
-                      id="country"
-                      className="options"
-                      name="noguests"
-                      value={values.noguests}
-                      onChange={handleChange}
-                    >
-                       <option value="members">Members</option>
-                      <option value="1">1</option>
-                      <option value="2">2 </option>
-                      <option value="3">3</option>
-                      <option value="4">4 </option>
-                      <option value="5">5 </option>
-                      <option value="6">6 </option>
-                    </select>
-                    {error.noguests && (
-                        <span style={{ color: "red" }}>{error.noguests}</span>
-                    )}
-                  </Col>
-                  <Col>
-                    <Form.Label>
-                      <b>Room type</b>
-                    </Form.Label>
-                    <select
-                      id="country1"
-                      className="option"
-                      name="roomtype"
-                      value={values.roomtype}
-                      onChange={handleChange}
-                    >
-                      <option value="Type">Room Type</option>
-                      <option value="Single">Single Room</option>
-                      <option value="Double">Double Room </option>
-                      <option value="Suit">Suit Room</option>
-                    </select>
-                    {error.roomtype && (
-                        <span style={{ color: "red" }}>{error.roomtype}</span>
-                    )}
-                  </Col>
-                </Row>
-              </div> */}
               <br></br>
               <div className="btnS">
                 <Button variant="info" type="submit">

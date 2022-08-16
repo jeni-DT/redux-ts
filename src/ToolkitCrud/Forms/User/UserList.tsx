@@ -29,8 +29,8 @@ const UserList = () => {
   }, []);
   const navigate = useNavigate();
 
-  const deleteDatas = (deleted: string) => {
-    dispatch(deleteUsers(parseInt(deleted)));
+  const deleteDatas = (id:number) => {
+    dispatch(deleteUsers(id));
     dispatch(fetchUsers);
   };
   const goBack = () => {
@@ -106,7 +106,7 @@ const UserList = () => {
                             type="button"
                             data-bs-toggle="modal"
                             data-bs-target="#exampleModal"
-                            onClick={() => setDeleteId(user.id)}
+                            onClick={() => deleteDatas(user.id)}
                           >
                             Delete
                           </button>
@@ -156,13 +156,13 @@ const UserList = () => {
                 >
                   Close
                 </button>
-                <button
+                {/* <button
                   type="button"
                   className="btn btn-primary"
                   onClick={() => deleteDatas(deleteId)}
                 >
                   Yes
-                </button>
+                </button> */}
               </div>
             </div>
           </div>
